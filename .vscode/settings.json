@@ -1,0 +1,17 @@
+// Extension Settings for this Workspace, using Recommended Extensions.
+
+{
+	"editor.formatOnSave": true,
+	"editor.tabSize": 4,
+
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+
+	// Python Specific Settings
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.python"
+	},
+	"python.analysis.extraPaths": [
+		"./Dissertation/ProtoScan",
+		"./Dissertation/Point-E"
+	]
+}
