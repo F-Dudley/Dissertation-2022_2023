@@ -17,7 +17,7 @@ setup(
     author='Finn Dudley',
 
     packages=find_namespace_packages(
-        include=buildIncludes, exclude=buildExcludes),
+        where='Dissertation', include=buildIncludes, exclude=buildExcludes),
 
     install_requires=[
         'pykinect2',
@@ -25,7 +25,8 @@ setup(
         'open3d>=0.15.0',
         'tqdm',
 
-        # Local packages
-        # 'point-e',
+        # Point E Packages
+        'torch',
+        "Pillow",
     ],
 )
