@@ -1,32 +1,24 @@
 from setuptools import setup, find_namespace_packages
 
-buildIncludes = [
-    'Dissertation.*',
+includes = [
+    'Dissertation.ProtoScan',
+    'external.*'
 ]
 
-buildExcludes = [
-    'Dissertation.tests',
-    'Dissertation.tests.*',
+excludes = [
+    'Dissertation.samples',
+    'Dissertation.eval',
+    'Dissertation.data',
 ]
+
+foundPackages = find_namespace_packages(include=includes, exclude=excludes)
+
+print(f'Found Packages: \n{foundPackages}')
 
 setup(
-    version='0.1.0',
-
     name='F-Dudley Dissertation',
+    version='0.1.0',
     description='My Dissertation Project files for My Final Year Project at Birmingham City University',
-    author='Finn Dudley',
 
-    packages=find_namespace_packages(
-        where='Dissertation', include=buildIncludes, exclude=buildExcludes),
-
-    install_requires=[
-        'pykinect2',
-        'opencv-python',
-        'open3d>=0.15.0',
-        'tqdm',
-
-        # Point E Packages
-        'torch',
-        "Pillow",
-    ],
+    packages=foundPackages,
 )

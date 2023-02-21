@@ -12,6 +12,6 @@
 	},
 	"python.analysis.extraPaths": [
 		"./Dissertation/ProtoScan",
-		"./Dissertation/Point-E"
+		"./external/Point-E"
 	]
 }
