@@ -1,18 +1,19 @@
+import os
 from setuptools import setup, find_namespace_packages
 
 includes = [
-    'Dissertation.ProtoScan',
-    'external.*'
+
 ]
 
 excludes = [
-    'Dissertation.samples',
-    'Dissertation.eval',
-    'Dissertation.data',
+
 ]
 
-foundPackages = find_namespace_packages(include=includes, exclude=excludes)
-
+foundPackages = find_namespace_packages(
+    where='Dissertation',
+    include=includes,
+    exclude=excludes
+)
 print(f'Found Packages: \n{foundPackages}')
 
 setup(
@@ -20,5 +21,18 @@ setup(
     version='0.1.0',
     description='My Dissertation Project files for My Final Year Project at Birmingham City University',
 
+    package_dir={'': 'Dissertation'},
     packages=foundPackages,
+
+    install_requires=[
+        'pykinect2',
+        'opencv-python',
+        'open3d>=0.15.0',
+        'tqdm',
+
+        # Point E Packages
+        f'point_e @ git+file://{os.getcwd()}//external//Point-E#egg=point_e',
+        'pillow',
+        'torch',
+    ],
 )

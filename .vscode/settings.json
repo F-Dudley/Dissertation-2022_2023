@@ -10,8 +10,5 @@
 	"[python]": {
 		"editor.defaultFormatter": "ms-python.python"
 	},
-	"python.analysis.extraPaths": [
-		"./Dissertation/ProtoScan",
-		"./external/Point-E"
-	]
+	"python.analysis.extraPaths": ["./Dissertation/ProtoScan"]
 }
