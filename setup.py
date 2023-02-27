@@ -1,23 +1,28 @@
+import os
 from setuptools import setup, find_namespace_packages
 
-buildIncludes = [
-    'Dissertation.*',
+includes = [
+
 ]
 
-buildExcludes = [
-    'Dissertation.tests',
-    'Dissertation.tests.*',
+excludes = [
+
 ]
+
+foundPackages = find_namespace_packages(
+    where='Dissertation',
+    include=includes,
+    exclude=excludes
+)
+print(f'Found Packages: \n{foundPackages}')
 
 setup(
-    version='0.1.0',
-
     name='F-Dudley Dissertation',
+    version='0.1.0',
     description='My Dissertation Project files for My Final Year Project at Birmingham City University',
-    author='Finn Dudley',
 
-    packages=find_namespace_packages(
-        where='Dissertation', include=buildIncludes, exclude=buildExcludes),
+    package_dir={'': 'Dissertation'},
+    packages=foundPackages,
 
     install_requires=[
         'pykinect2',
@@ -26,7 +31,8 @@ setup(
         'tqdm',
 
         # Point E Packages
+        f'point_e @ git+file://{os.getcwd()}//external//Point-E#egg=point_e',
+        'pillow',
         'torch',
-        "Pillow",
     ],
 )
