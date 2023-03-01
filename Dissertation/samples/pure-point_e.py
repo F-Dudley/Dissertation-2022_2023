@@ -3,7 +3,7 @@
 
 # In[ ]:
 import tqdm
-from ProtoScan.CloudGenerators.Point_E import CloudSampler
+from AIScan import CloudSampler
 from Images.Utils import getPathImages
 
 srcPath = './data/duck'

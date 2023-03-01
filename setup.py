@@ -6,7 +6,8 @@ includes = [
 ]
 
 excludes = [
-
+    'data*',
+    'samples*',
 ]
 
 foundPackages = find_namespace_packages(
