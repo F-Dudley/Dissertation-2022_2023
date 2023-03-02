@@ -2,7 +2,8 @@ from typing import Sequence
 import torch
 from point_e.diffusion.sampler import PointCloudSampler
 
-from .Models import CreateModel, CreateDiffusion, UseBestTorchDevice
+from .Models import CreateModel, CreateDiffusion
+from ..Utils.Torch import UseBestTorchDevice
 
 
 def CreateCloudSampler(baseName: str, numPoints: Sequence[int] = [1024, 4096 - 1024]) -> PointCloudSampler:

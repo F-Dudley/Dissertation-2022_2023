@@ -20,7 +20,3 @@ def CreateModel(modelName: str, device: torch.device) -> torch.nn.Module:
 def CreateDiffusion(diffusionName: str) -> gaussian_diffusion.GaussianDiffusion:
     print(f'Loading {diffusionName} Diffusion')
     return diffusion_from_config(DIFFUSION_CONFIGS[diffusionName])
-
-
-def UseBestTorchDevice() -> torch.device:
-    return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
