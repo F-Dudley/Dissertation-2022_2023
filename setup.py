@@ -34,6 +34,6 @@ setup(
         # Point E Packages
         f'point_e @ git+file://{os.getcwd()}//external//Point-E#egg=point_e',
         'pillow',
-        'torch',
+        'torch==1.13.1',
     ],
 )
