@@ -12,7 +12,7 @@ def CalculateRMSE(cloud1: o3d.geometry.PointCloud, cloud2: o3d.geometry.PointClo
 
     rmse = np.sqrt(mse)
 
-    return rmse
+    return rmse * 1000  # Convert to mm.
 
 
 def CalculateRMSE_brute(baseCloud: o3d.geometry.PointCloud, evalCloud: o3d.geometry.PointCloud) -> float:
@@ -36,4 +36,4 @@ def CalculateRMSE_brute(baseCloud: o3d.geometry.PointCloud, evalCloud: o3d.geome
 
     mse = sum / len(evalCloud.points)
 
-    return np.sqrt(mse)
+    return np.sqrt(mse) * 1000  # Convert to mm.

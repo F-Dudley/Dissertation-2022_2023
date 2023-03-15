@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float = 0.4, upper_lim=2.0) -> Figure:
+def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float = 0.4, upper_lim=10) -> Figure:
     """
     Plots the RMSE for each technique. 
     The data should be in the following format:
@@ -47,7 +47,7 @@ def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float =
     ax.set_ylabel('RMSE (mm)')
     ax.set_title('RMSE Values for Different Techniques')
     ax.set_xticks(x + bar_width, techniques)
-    ax.axhline(y=0.5, linestyle='--', color='green', label='Target RMSE')
+    ax.axhline(y=5, linestyle='--', color='green', label='Target RMSE')
     ax.legend(loc='upper right')
     ax.set_ylim(0, upper_lim)
 

@@ -36,3 +36,12 @@ def CreatePointcloudFromSampledMesh(meshDir: str, sampleSize: int = 1000) -> o3d
     del mesh
 
     return pointCloud
+
+
+def CreatePointcloudFromDir(cloudDir: str) -> o3d.geometry.PointCloud:
+
+    if (os.path.exists(cloudDir) is False):
+        raise Exception("Provided Cloud File does not exist.")
+
+    # Load Pointcloud from File.
+    return o3d.io.read_point_cloud(cloudDir)
