@@ -1,8 +1,32 @@
 {
-    "point_e": {
-        "sphere": {
-            "rmse": 0.17067397846888457,
-            "inlier_rmse": 0.0
-        }
-    }
+	"kinect": {
+		"sphere": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		},
+		"box": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		}
+	},
+	"point_e": {
+		"sphere": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		},
+		"box": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		}
+	},
+	"polycam": {
+		"sphere": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		},
+		"box": {
+			"rmse": 0.17068160383701134,
+			"inlier_rmse": 0.0
+		}
+	}
 }

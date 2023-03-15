@@ -3,50 +3,52 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float = 0.4) -> Figure:
-    """Plots the RMSE for each technique."""
+def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float = 0.4, upper_lim=2.0) -> Figure:
+    """
+    Plots the RMSE for each technique. 
+    The data should be in the following format:
 
-    # Seperate the Data
+    {
+        "<TECHNIQUENAME>": {
+            "sphere": {
+                "rmse": float,
+                "inlier_rmse": float,
+            },
+            "box": {
+                "rmse": float,
+                "inlier_rmse": float,
+            }
+        },
+    }
+
+    """
+
+    # Prepare the data
     techniques = list(data.keys())
+    x = np.arange(len(techniques))
+    rmses = {
+        "sphere": [data[technique]["sphere"]["rmse"] for technique in techniques],
+        "box": [data[technique]["box"]["rmse"] for technique in techniques]
+    }
 
-    sphere_rmse = []
-    box_rmse = []
+    print(f'RMSE Data: \n{rmses}')
 
-    for technique in techniques:
-        if "sphere" in data[technique]:
-            sphere_rmse.append(data[technique]["sphere"]["rmse"])
-        if "box" in data[technique]:
-            box_rmse.append(data[technique]["box"]["rmse"])
+    # Create the Figure
+    fig, ax = plt.subplots(layout='constrained')
 
-    x_ticks = np.arange(len(techniques))
-    sphere_x_ticks = x_ticks - bar_width/2
-    box_x_ticks = x_ticks + bar_width/2
+    multiplier = 0
+    for attr, measurement in rmses.items():
+        offset = multiplier * bar_width
+        rects = ax.bar(x + offset, measurement, bar_width, label=attr)
+        ax.bar_label(rects, padding=3)
+        multiplier += 1
 
-    # Create the figure and the axis object
-    fig, ax = plt.subplots()
-
-    # Create the bars for the "sphere" RMSE values
-    sphere_bars = ax.bar(sphere_x_ticks, sphere_rmse,
-                         bar_width, label='Sphere', color='blue')
-
-    # Create the bars for the "box" RMSE values
-    box_bars = ax.bar(box_x_ticks, box_rmse, bar_width,
-                      label='Box', color='orange')
-
-    # Add the legend
-    ax.legend()
-
-    # Add the x-axis labels and ticks
-    ax.set_xticks(x_ticks)
-    ax.set_xticklabels(techniques)
-
-    # Add the y-axis label
-    ax.set_ylabel('RMSE')
-
-    # Add the target dashed line for 0.5 that is green
-    ax.axhline(y=0.5, linestyle='--', color='green')
-
-    # Set the title
+    # Add Text Labels
+    ax.set_ylabel('RMSE (mm)')
     ax.set_title('RMSE Values for Different Techniques')
+    ax.set_xticks(x + bar_width, techniques)
+    ax.axhline(y=0.5, linestyle='--', color='green', label='Target RMSE')
+    ax.legend(loc='upper right')
+    ax.set_ylim(0, upper_lim)
 
     return fig
