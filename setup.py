@@ -33,7 +33,7 @@ setup(
         'matplotlib',
 
         # Point E Packages
-        f'point_e @ git+file://{os.getcwd()}//external//Point-E#egg=point_e',
+        f'point_e @ file://{os.getcwd()}//external//Point-E#egg=point_e',
         'pillow',
         'torch==1.13.1',
     ],
