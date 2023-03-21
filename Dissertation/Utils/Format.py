@@ -16,3 +16,27 @@ def uniformSampleList(list: list, sampleSize: int) -> list:
     )
 
     return newSample
+
+
+def MilimeterToMeter(milimeter: float) -> float:
+    """Converts milimeter to meter."""
+
+    return milimeter / 1000
+
+
+def MeterToMilimeter(meter: float) -> float:
+    """Converts meter to milimeter."""
+
+    return meter * 1000
+
+
+def FeetToMeter(feet: float) -> float:
+    """Converts feet to meter."""
+
+    return feet / 3.28084
+
+
+def MeterToFeet(meter: float) -> float:
+    """Converts meter to feet."""
+
+    return meter * 3.28084

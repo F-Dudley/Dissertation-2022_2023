@@ -4,7 +4,11 @@ import numpy as np
 
 
 def CalculateRMSE(cloud1: o3d.geometry.PointCloud, cloud2: o3d.geometry.PointCloud) -> float:
-    """Calculates the root mean squared error between two point clouds.\nUses the Open3D compute_point_cloud_distance method. (Using a KDTree)"""
+    """
+Calculates the root mean squared error between two point clouds.
+\nUses the Open3D compute_point_cloud_distance method. (Using a KDTree)
+\nReturns the RMSE in meters.
+    """
 
     distances = cloud1.compute_point_cloud_distance(cloud2)
 
@@ -12,11 +16,15 @@ def CalculateRMSE(cloud1: o3d.geometry.PointCloud, cloud2: o3d.geometry.PointClo
 
     rmse = np.sqrt(mse)
 
-    return rmse * 1000  # Convert to mm.
+    return rmse
 
 
 def CalculateRMSE_brute(baseCloud: o3d.geometry.PointCloud, evalCloud: o3d.geometry.PointCloud) -> float:
-    """Calculates the root mean squared error between two point clouds.\nUses a brute force method."""
+    """
+Calculates the root mean squared error between two point clouds.
+\nUses a brute force method.
+\nReturns the RMSE in meters.
+    """
 
     sum = 0
 
@@ -36,4 +44,4 @@ def CalculateRMSE_brute(baseCloud: o3d.geometry.PointCloud, evalCloud: o3d.geome
 
     mse = sum / len(evalCloud.points)
 
-    return np.sqrt(mse) * 1000  # Convert to mm.
+    return np.sqrt(mse)
