@@ -59,3 +59,44 @@ def saveJSON(path: str, data: dict) -> None:
 
     with open(path, 'w') as f:
         json.dump(data, f, indent=4)
+
+
+class JSON:
+    """ A class to handle JSON files."""
+
+    def __init__(self, path: str) -> None:
+
+        if (not os.path.isfile(path) or not os.path.exists(path)):
+            raise ValueError("Provided Path does not exist or is not a file.")
+
+        self.path: str = os.path.abspath(path)
+        self.load()
+
+        print(f"Loaded JSON From: {self.path}")
+
+    def __del__(self) -> None:
+        self.save()
+
+        print(f"Saved JSON at: {self.path}")
+
+    def load(self) -> None:
+        """ Loads the JSON file. """
+
+        with open(self.path, 'r') as f:
+            self.data = json.load(f)
+
+    def save(self) -> None:
+        """ Saves the JSON file. """
+
+        with open(self.path, 'w') as f:
+            json.dump(self.data, f, indent=4)
+
+    def has(self, key: str) -> bool:
+        """ Returns True if the given key exists. """
+
+        return key in self.data
+
+    def print(self):
+        """ Prints out the Current Cached Data."""
+
+        print(self.data)
