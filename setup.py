@@ -27,6 +27,7 @@ setup(
 
     install_requires=[
         'pykinect2',
+        'comtypes>=1.1.1'
         'opencv-python',
         'open3d>=0.15.0',
         'tqdm',
