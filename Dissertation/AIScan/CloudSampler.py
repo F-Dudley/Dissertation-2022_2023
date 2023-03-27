@@ -3,16 +3,21 @@ import torch
 from point_e.diffusion.sampler import PointCloudSampler
 
 from .Models import CreateModel, CreateDiffusion
-from ..Utils.Torch import UseBestTorchDevice
+from Utils.Torch import UseBestTorchDevice, UseTorchDevice
 
 
-def CreateCloudSampler(baseName: str, numPoints: Sequence[int] = [1024, 4096 - 1024]) -> PointCloudSampler:
+def CreateCloudSampler(baseName: str, numPoints: Sequence[int] = [1024, 4096 - 1024], torchDevice: str = None) -> PointCloudSampler:
     """Creates a Sampler and Model for the given Model Name"""
 
-    device = UseBestTorchDevice()
+    device: torch.device = None
 
-    base_model = CreateModel(baseName, device)
-    upsampler_model = CreateModel('upsample', device)
+    if (torchDevice == None):
+        device = UseBestTorchDevice()
+    else:
+        device = UseTorchDevice(torchDevice)
+
+    base_model = CreateModel(modelName=baseName, device=device)
+    upsampler_model = CreateModel(modelName='upsample', device=device)
 
     base_diffusion = CreateDiffusion(baseName)
     upsampler_diffusion = CreateDiffusion('upsample')

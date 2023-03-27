@@ -27,13 +27,15 @@ setup(
 
     install_requires=[
         'pykinect2',
+        'comtypes>=1.1.1'
         'opencv-python',
         'open3d>=0.15.0',
         'tqdm',
+        'matplotlib',
 
         # Point E Packages
-        f'point_e @ git+file://{os.getcwd()}//external//Point-E#egg=point_e',
+        f'point_e @ file://{os.getcwd()}//external//Point-E#egg=point_e',
         'pillow',
-        'torch',
+        'torch==1.13.1',
     ],
 )
