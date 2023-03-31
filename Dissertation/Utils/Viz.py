@@ -14,12 +14,12 @@ def VizualiseBaseTargetPointclouds(
 
     if (basePointcloud is not None):
         baseTmp = copy.deepcopy(basePointcloud)
-        baseTmp.paint_uniform_color([0.25, 0.25, 0.25])
+        # baseTmp.paint_uniform_color([0.25, 0.25, 0.25])
         clouds.append(baseTmp)
 
     if (targetPointcloud is not None):
         targetTmp = copy.deepcopy(targetPointcloud)
-        targetTmp.paint_uniform_color([0.75, 0, 0])
+        # targetTmp.paint_uniform_color([0.75, 0, 0])
         clouds.append(targetTmp)
 
     o3d.visualization.draw_geometries(

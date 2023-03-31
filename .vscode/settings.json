@@ -10,5 +10,6 @@
 	"[python]": {
 		"editor.defaultFormatter": "ms-python.python"
 	},
-	"python.analysis.extraPaths": ["./Dissertation/ProtoScan"]
+	"python.analysis.extraPaths": ["./Dissertation/ProtoScan"],
+	"python.analysis.typeCheckingMode": "basic"
 }
