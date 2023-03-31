@@ -30,7 +30,7 @@ def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float =
 
     # Prepare the data
     techniques = SCANNING_TECHNIQUES
-    x = np.arange(len(techniques), step=1)
+    x = np.arange(0, len(techniques), step=1)
     rmses = {
         "sphere": [data[technique]["sphere"]["rmse"] for technique in techniques],
         "box": [data[technique]["box"]["rmse"] for technique in techniques]
@@ -61,7 +61,7 @@ def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float =
     return fig
 
 
-def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float) -> Figure:
+def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float, cap_size: int = 0) -> Figure:
     """
     Plots the standard deviation for each technique.
     The data should be in the following format:
@@ -94,8 +94,13 @@ def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float) -> Figu
     for technique in techniques:
 
         stds.append(data[technique]["sphere"]["std"])
-        lower.append(data[technique]["sphere"]["min"])
-        upper.append(data[technique]["sphere"]["max"])
+
+        lower.append((data[technique]["sphere"]["std"] -
+                     data[technique]["sphere"]["min"]))
+
+        upper.append((data[technique]["sphere"]["max"] -
+                     data[technique]["sphere"]["std"]))
+
         means.append(data[technique]["sphere"]["mean"])
 
     print(f'STDS: {stds}')
@@ -111,7 +116,7 @@ def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float) -> Figu
         (len(techniques) * x_gap_size),
         step=x_gap_size
     )
-    ax.set_xlim(0, np.max(xTicks) + (x_gap_size/2))
+    ax.set_xlim(0, (np.max(xTicks) + (x_gap_size/2)).astype(float))
     ax.set_xticks(xTicks)
     ax.set_xticklabels(techniques)
 
@@ -120,16 +125,28 @@ def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float) -> Figu
         x=xTicks,
         y=stds,
         yerr=[lower, upper],
+        label='Standard Deviation',
+        capsize=cap_size,
         fmt='o',
-        capsize=4,
-        capthick=1,
         ecolor='blue',
+    )
+
+    # Legend
+    handles, labels = ax.get_legend_handles_labels()
+
+    handles = [handles[0][1], handles[0][0], handles[0][1]]
+    labels = ["Max Distance", labels[0], "Min Distance"]
+
+    ax.legend(
+        handles,
+        labels,
+        loc='center left',
+        bbox_to_anchor=(1.04, 0.5),
     )
 
     # Set Table Titles
     ax.set_xlabel('Technique')
-    ax.set_ylabel('Standard Deviation (mm)')
+    ax.set_ylabel('Distance (mm)')
     ax.set_title('Standard Deviation for Different Techniques')
-    ax.legend(loc='upper right')
 
     return fig
