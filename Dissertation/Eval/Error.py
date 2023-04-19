@@ -1,7 +1,32 @@
 import sys
-from typing import Dict
+from typing import Dict, List
 import open3d as o3d
 import numpy as np
+import tqdm
+
+
+def CalculateDistance(cloud1: o3d.geometry.PointCloud, cloud2: o3d.geometry.PointCloud) -> List[float]:
+    """
+Calculates the distance between two point clouds.
+\nUses the brute force method. (Not recommended)
+\nReturns the distance in meters.
+    """
+
+    distances = []
+
+    for point in cloud1.points:
+
+        closestDist: np.floating = np.finfo(np.float32).max
+
+        for point2 in cloud2.points:
+
+            newDist = np.linalg.norm(point - point2)
+            if newDist < closestDist:
+                closestDist = newDist
+
+        distances.append(closestDist)
+
+    return distances
 
 
 def CalculateRMSE(cloud1: o3d.geometry.PointCloud, cloud2: o3d.geometry.PointCloud) -> float:
@@ -29,7 +54,7 @@ Calculates the root mean squared error between two point clouds.
 
     sum = 0
 
-    for point in evalCloud.points:
+    for point in tqdm.tqdm(evalCloud.points):
 
         closestDist: np.floating = np.finfo(np.float32).max
 

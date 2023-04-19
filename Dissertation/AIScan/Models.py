@@ -11,7 +11,7 @@ def CreateModel(modelName: str, device: torch.device) -> torch.nn.Module:
     model = model_from_config(MODEL_CONFIGS[modelName], device)
     model.eval()
 
-    print('Loading Base Model Checkpoint')
+    print(f'Loading {modelName} Model Checkpoint')
     model.load_state_dict(load_checkpoint(modelName, device=device))
 
     return model
