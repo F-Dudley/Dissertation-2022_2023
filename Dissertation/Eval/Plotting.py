@@ -51,7 +51,7 @@ def plot_technique_std(
     hist_color: str = 'b', curve_color: str = 'r',
     mean_color: str = 'g', mean_alpha: float = 1,
     std_color: str = 'y', std_alpha: float = 1,
-    x_lim_multiple: float = 2, y_lim_multiple: float = 2
+    x_lim_multiple: float = 2, y_lim_multiple: float = 0.1
 ) -> Figure:
     """
 Plots the standard deviation for an input technique.
@@ -120,30 +120,35 @@ The Figure denotes the distance data in a histogram, and the standard deviation 
     ax.set_ylim(
         0,
         RoundToNearestMultiple(
-            graph_standards['MAX_FREQUENCY'], y_lim_multiple)
+            graph_standards['MAX_PROB_DENSITY'],
+            y_lim_multiple
+        )
     )
 
     ax.set_xlim(
         0,
-        RoundToNearestMultiple(graph_standards['MAX_DISTANCE'], x_lim_multiple)
+        RoundToNearestMultiple(
+            graph_standards['MAX_DISTANCE'],
+            x_lim_multiple
+        )
     )
 
     ax.set_xlabel('Distance (mm)')
-    ax.set_ylabel('Frequency')
+    ax.set_ylabel('Density')
     plt.title(f'Normal Distribution of {technique} Data')
 
     return fig
 
 
-def get_histogram_standards(cloud1, cloud2):
+def get_histogram_standards(
+    cloud1,
+    cloud2,
+    bins: int = 100,
+):
 
-    dist = cloud1.compute_point_cloud_distance(cloud2)
+    dist = np.array(cloud1.compute_point_cloud_distance(cloud2))
+    dist *= 1000
 
-    hist, bin = np.histogram(dist, bins=100, density=True)
+    hist, bin = np.histogram(dist, bins=bins, density=True)
 
-    bin_width = bin[1] - bin[0]
-    max_prob_density = np.max(hist) * bin_width * len(dist)
-
-    print(f'Max Bin: {np.max(hist)}')
-
-    return max_prob_density, np.max(dist)
+    return np.max(hist), np.max(dist)
