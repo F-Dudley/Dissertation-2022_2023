@@ -32,6 +32,7 @@ setup(
         'open3d>=0.15.0',
         'tqdm',
         'matplotlib',
+        'scipy',
 
         # Point E Packages
         f'point_e @ file://{os.getcwd()}//external//Point-E#egg=point_e',

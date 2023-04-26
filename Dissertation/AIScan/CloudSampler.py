@@ -9,7 +9,7 @@ from Utils.Torch import UseBestTorchDevice, UseTorchDevice
 def CreateCloudSampler(baseName: str, numPoints: Sequence[int] = [1024, 4096 - 1024], torchDevice: str = None) -> PointCloudSampler:
     """Creates a Sampler and Model for the given Model Name"""
 
-    device: torch.device = None
+    device: torch.device = None  # type: ignore
 
     if (torchDevice == None):
         device = UseBestTorchDevice()

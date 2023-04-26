@@ -4,3 +4,7 @@ SCANNING_TECHNIQUES = [
     'Point_E',
     'PolyCam',
 ]
+
+SCANNING_TARGETS = [
+    'Sphere',
+]

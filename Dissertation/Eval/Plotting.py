@@ -1,152 +1,154 @@
+from typing import Dict
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import norm
 
 from .Info import SCANNING_TECHNIQUES
 from Utils.Math import RoundToNearestMultiple
 
 
-def plot_technique_rmse(data: dict, target_rmse: float = 0.5, bar_width: float = 0.4, upper_lim=10) -> Figure:
+def plot_technique_rmse(rmseData: dict, target_rmse: float = 0.5, bar_width: float = 0.4) -> Figure:
     """
-    Plots the RMSE for each technique.
-    The data should be in the following format:
+Plots the RMSE for each Technique.
 
-    {
-        "<TECHNIQUENAME>": {
-            "sphere": {
-                "rmse": float,
-                "inlier_rmse": float,
-            },
-            "box": {
-                "rmse": float,
-                "inlier_rmse": float,
-            }
-        },
-    }
+:param rmseData: The RMSE data to plot. Should be in the following format: {<TECHNIQUENAME>: <RMSE>: float, ...}
 
     """
+
+    data_keys = list(rmseData.keys())
+    data_values = list(rmseData.values())
 
     plt.style.use('ggplot')
 
-    # Prepare the data
-    techniques = SCANNING_TECHNIQUES
-    x = np.arange(0, len(techniques), step=1)
-    rmses = {
-        "sphere": [data[technique]["sphere"]["rmse"] for technique in techniques],
-        "box": [data[technique]["box"]["rmse"] for technique in techniques]
-    }
-
-    # Create the Figure
     fig, ax = plt.subplots(layout='constrained')
 
-    multiplier = 0
-    for attr, measurement in rmses.items():
-        offset = multiplier * bar_width
-        rects = ax.bar(x + offset, measurement,
-                       bar_width, label=attr.capitalize())
-        ax.bar_label(rects, padding=3)
-        multiplier += 1
+    ax.bar(data_keys, data_values, width=bar_width)
 
-    # Add Text Labels
+    ax.axhline(
+        y=target_rmse, linestyle='--',
+        color='green',
+        label='Target RMSE'
+    )
+
+    ax.legend(
+        loc='center left',
+        bbox_to_anchor=(1.04, 0.5),
+    )
+    ax.set_xlabel('Techniques')
     ax.set_ylabel('RMSE (mm)')
     ax.set_title('RMSE Values for Different Techniques')
-    ax.set_xticks(x + bar_width, techniques)
-    ax.axhline(y=5, linestyle='--', color='green', label='Target RMSE')
-    ax.legend(
-        loc='center left',
-        bbox_to_anchor=(1.04, 0.5),
-    )
-    ax.set_ylim(0, upper_lim)
 
     return fig
 
 
-def plot_technique_std(data: dict, x_gap_size: float, y_gap_size: float, cap_size: int = 0) -> Figure:
+def plot_technique_std(
+    dist_data: np.ndarray,
+    graph_standards: Dict[str, float],
+    technique: str,
+    bins: int = 100,
+    hist_alpha: float = 0.6, curve_alpha: float = 0.8,
+    hist_color: str = 'b', curve_color: str = 'r',
+    mean_color: str = 'g', mean_alpha: float = 1,
+    std_color: str = 'y', std_alpha: float = 1,
+    x_lim_multiple: float = 2, y_lim_multiple: float = 0.1
+) -> Figure:
     """
-    Plots the standard deviation for each technique.
-    The data should be in the following format:
+Plots the standard deviation for an input technique.
 
-    {
-        "<TECHNIQUENAME>": {
-            "sphere": {
-                "std": float,
-                "inlier_std": float,
-            },
-            "box": {
-                "std": float,
-                "inlier_std": float,
-            }
-        },
-    }
-
+The Figure denotes the distance data in a histogram, and the standard deviation in a bell curve.
     """
+
+    assert technique in SCANNING_TECHNIQUES, f'Invalid Technique: {technique}'
+    assert bins > 0, f'Invalid Number of Bins: {bins}'
 
     plt.style.use('ggplot')
-
-    # Prepare the Data
-    techniques = SCANNING_TECHNIQUES
-
-    stds: list = []
-    lower = []
-    upper = []
-    means = []
-
-    for technique in techniques:
-
-        stds.append(data[technique]["sphere"]["std"])
-
-        lower.append((data[technique]["sphere"]["std"] -
-                     data[technique]["sphere"]["min"]))
-
-        upper.append((data[technique]["sphere"]["max"] -
-                     data[technique]["sphere"]["std"]))
-
-        means.append(data[technique]["sphere"]["mean"])
-
-    print(f'STDS: {stds}')
-    print(f'LOWER: {lower}')
-    print(f'UPPER: {upper}')
-    print(f'MEANS: {means}')
-
     fig, ax = plt.subplots(layout='constrained')
 
-    # X Ticks
-    xTicks = np.arange(
-        x_gap_size / 2,
-        (len(techniques) * x_gap_size),
-        step=x_gap_size
-    )
-    ax.set_xlim(0, (np.max(xTicks) + (x_gap_size/2)).astype(float))
-    ax.set_xticks(xTicks)
-    ax.set_xticklabels(techniques)
+    # Plot Histogram #
 
-    # Plot the Data
-    ax.errorbar(
-        x=xTicks,
-        y=stds,
-        yerr=[lower, upper],
-        label='Standard Deviation',
-        capsize=cap_size,
-        fmt='o',
-        ecolor='blue',
+    dist_data = np.array(dist_data)
+    ax.hist(
+        dist_data,
+        bins=bins,
+        density=True,
+        color=hist_color, alpha=hist_alpha,
+        label='Distance Data'
     )
 
-    # Legend
-    handles, labels = ax.get_legend_handles_labels()
+    # # # #   # # # #
 
-    handles = [handles[0][1], handles[0][0], handles[0][1]]
-    labels = ["Max Distance", labels[0], "Min Distance"]
+    # Plot Normal Distribution #
+
+    mu, std = norm.fit(dist_data)
+    xmin, xmax = ax.get_xlim()
+
+    x = np.linspace(xmin, xmax, 100)
+    p = norm.pdf(x, mu, std)
+
+    ax.plot(
+        x, p, 'k',
+        linewidth=2,
+        color=curve_color, alpha=curve_alpha,
+        label='Normal Distribution'
+    )
+
+    # # # # # # # # # # # # # #
+
+    # Plot Mean / STD Increments
+    ax.axvline(
+        mu,
+        color=mean_color, alpha=mean_alpha,
+        linestyle='--',
+        label='Mean'
+    )
+
+    std_plots = [mu - (std*2), mu - std, mu + std, mu + (std*2)]
+    for i, value in enumerate(std_plots):
+        ax.axvline(
+            value,
+            color=std_color, alpha=std_alpha,
+            linestyle='--',
+            label=f'Standard Deviations' if i == 0 else None
+        )
 
     ax.legend(
-        handles,
-        labels,
         loc='center left',
         bbox_to_anchor=(1.04, 0.5),
     )
 
-    # Set Table Titles
-    ax.set_xlabel('Technique')
-    ax.set_ylabel('Distance (mm)')
-    ax.set_title('Standard Deviation for Different Techniques')
+    ax.set_ylim(
+        0,
+        RoundToNearestMultiple(
+            graph_standards['MAX_PROB_DENSITY'],
+            y_lim_multiple
+        )
+    )
+
+    ax.set_xlim(
+        0,
+        RoundToNearestMultiple(
+            graph_standards['MAX_DISTANCE'],
+            x_lim_multiple
+        )
+    )
+
+    ax.set_xlabel('Distance (mm)')
+    ax.set_ylabel('Density')
+    plt.title(f'Normal Distribution of {technique} Data')
 
     return fig
+
+
+def get_histogram_standards(
+    cloud1,
+    cloud2,
+    bins: int = 100,
+):
+
+    dist = np.array(cloud1.compute_point_cloud_distance(cloud2))
+    dist *= 1000
+
+    hist, bin = np.histogram(dist, bins=bins, density=True)
+
+    return np.max(hist), np.max(dist)
