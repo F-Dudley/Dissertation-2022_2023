@@ -9,9 +9,12 @@ def VizualiseBaseTargetPointclouds(
     windowName: str = "Base and Target Pointclouds",
     windowWidth: int = 1280, windowHeight: int = 720,
 ):
+    """ Vizualises the given base and target pointclouds. """
 
     clouds = []
 
+    # Adds the base and target cloud to the list of clouds to vizualise
+    # with the clouds being copies of the originals so they can be coloured
     if (basePointcloud is not None):
         baseTmp = copy.deepcopy(basePointcloud)
         # baseTmp.paint_uniform_color([0.25, 0.25, 0.25])
