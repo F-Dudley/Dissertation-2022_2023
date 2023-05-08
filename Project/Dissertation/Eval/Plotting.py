@@ -182,3 +182,23 @@ Gets the maximum probability density and distance for a histogram of two point c
 
     # Gets the Maximum Probability Density and Distance
     return np.max(hist), np.max(dist)
+
+
+def get_pointcloud_colour_ramp(distanceData: np.ndarray) -> np.ndarray:
+    """
+Gets pointcloud colour data, using a colour ramp, based on the input distance data.
+
+:param distanceData: The distance data to to get the point data for.
+
+:return: The pointcloud colour data in a numpy array.
+    """
+
+    norm_distdata = (distanceData - distanceData.min()) / \
+        (distanceData.max() - distanceData.min())
+
+    colorData = np.zeros((len(norm_distdata), 3))
+
+    colorData[:, 2] = 1 - norm_distdata
+    colorData[:, 0] = norm_distdata
+
+    return colorData.astype(np.float64)

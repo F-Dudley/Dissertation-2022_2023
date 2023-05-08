@@ -1,5 +1,6 @@
 external/
 Dissertation/notebooks/testing.ipynb
+Dissertation/notebooks/testing.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
