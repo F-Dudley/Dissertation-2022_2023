@@ -1,40 +1,31 @@
 import { Suspense, useMemo, useRef, useState } from 'react';
-import { MathUtils, SphereGeometry, Vector3 } from 'three';
+import { type BufferAttribute, SphereGeometry, Vector3, Mesh } from 'three';
 import { Points } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
+import { ThreeElements, useFrame } from '@react-three/fiber';
+import { DemoSphereLines } from '@/utils/three';
 
 const MethodsPage = () => {
-	const [registerClouds, setRegisterClouds] = useState<boolean>(false);
-	const [showDistanceLines, setShowDistanceLines] = useState<boolean>(false);
+	const [registerClouds, setRegisterClouds] = useState<boolean>(true);
+	const [showDistanceLines, setShowDistanceLines] = useState<boolean>(true);
 
-	const smallSphereRef = useRef(null);
-	const sphereRef = useRef(null);
+	const smallSphereRef = useRef<Mesh>(null);
+	const sphereRef = useRef<Mesh>(null);
 
 	const smallerSphereGeometry = useMemo(
-		() => new SphereGeometry(0.5, 32, 32),
+		() => new SphereGeometry(0.5, 15, 15),
 		[],
 	);
-	const sphereGeometry = useMemo(() => new SphereGeometry(1, 32, 32), []);
+	const sphereGeometry = useMemo(() => new SphereGeometry(1, 15, 15), []);
 
 	const calcLinePoints = useMemo(() => {
-		const smallPoints = smallerSphereGeometry.attributes.position;
-		const bigPoints = sphereGeometry.attributes.position;
+		const smallPoints = smallerSphereGeometry.attributes
+			.position as BufferAttribute;
+		const bigPoints = sphereGeometry.attributes.position as BufferAttribute;
 
-		const points = new Float32Array(bigPoints.count * 6);
-
-		for (let i = 0; i < bigPoints.count; i++) {
-			points[i * 6] = smallPoints.array[i];
-			points[i * 6 + 1] = smallPoints.array[i + 1];
-			points[i * 6 + 2] = smallPoints.array[i + 2];
-			points[i * 6 + 3] = bigPoints.array[i];
-			points[i * 6 + 4] = bigPoints.array[i + 1];
-			points[i * 6 + 5] = bigPoints.array[i + 2];
-		}
-
-		return points;
+		return DemoSphereLines(smallPoints, bigPoints);
 	}, [smallerSphereGeometry, sphereGeometry]);
 
-	useFrame((_, delta) => {
+	useFrame(() => {
 		if (smallSphereRef.current !== null) {
 			smallSphereRef.current.position.lerp(
 				registerClouds ? new Vector3(0, 0, 0) : new Vector3(2, 0, 0),
@@ -43,7 +34,7 @@ const MethodsPage = () => {
 		}
 		if (sphereRef.current !== null) {
 			sphereRef.current.position.lerp(
-				registerClouds ? new Vector3(0, 0, 0) : new Vector3(-2, 0, 0),
+				registerClouds ? new Vector3(0, 0, 0) : new Vector3(-2.5, 0, 0),
 				0.1,
 			);
 		}
@@ -71,16 +62,13 @@ const MethodsPage = () => {
 				{showDistanceLines && (
 					<mesh>
 						<lineSegments>
-							<shapeGeometry attach="geometry" />
 							<bufferGeometry>
 								<bufferAttribute
 									attach={'attributes-position'}
-									count={calcLinePoints.length / 3}
-									array={calcLinePoints}
-									itemSize={3}
+									args={[calcLinePoints, 3]}
 								/>
 							</bufferGeometry>
-							<lineBasicMaterial color="yellow" />
+							<lineBasicMaterial color="blue" opacity={0.05} />
 						</lineSegments>
 					</mesh>
 				)}
