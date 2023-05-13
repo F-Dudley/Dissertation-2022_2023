@@ -1,9 +1,13 @@
+import Root from '@/components/tunnels/Root';
+
 const PageNotFound = () => {
-    return (
-        <div>
-            <h1>Page not found</h1>
-        </div>
-    )
-}
+	return (
+		<Root.In>
+			<div className="text-white">
+				<h1>Page not found</h1>
+			</div>
+		</Root.In>
+	);
+};
 
 export default PageNotFound;

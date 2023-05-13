@@ -22,17 +22,17 @@ const App = () => {
 					{showSkullList && (
 						<ul className="bg-gray-200 text-black">
 							<li>
-								<a onClick={() => navigator('/skull/PolyCam')}>
+								<a onClick={() => navigator('/Skull/PolyCam')}>
 									PolyCam
 								</a>
 							</li>
 							<li>
-								<a onClick={() => navigator('/skull/Kinect')}>
+								<a onClick={() => navigator('/Skull/Kinect')}>
 									Kinect
 								</a>
 							</li>
 							<li>
-								<a onClick={() => navigator('/skull/Point_E')}>
+								<a onClick={() => navigator('/Skull/Point_E')}>
 									Point-E
 								</a>
 							</li>
@@ -49,17 +49,17 @@ const App = () => {
 					{showSphereList && (
 						<ul className="bg-gray-200 text-black">
 							<li>
-								<a onClick={() => navigator('/sphere/PolyCam')}>
+								<a onClick={() => navigator('/Sphere/PolyCam')}>
 									PolyCam
 								</a>
 							</li>
 							<li>
-								<a onClick={() => navigator('/sphere/Kinect')}>
+								<a onClick={() => navigator('/Sphere/Kinect')}>
 									Kinect
 								</a>
 							</li>
 							<li>
-								<a onClick={() => navigator('/sphere/Point_E')}>
+								<a onClick={() => navigator('/Sphere/Point_E')}>
 									Point-E
 								</a>
 							</li>

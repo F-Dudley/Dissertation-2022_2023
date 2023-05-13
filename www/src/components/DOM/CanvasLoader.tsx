@@ -6,7 +6,7 @@ const CanvasLoader: FC = () => {
 
 	return (
 		<Html center>
-			<p>{progress}% Loaded</p>
+			<span>{progress} % Loaded</span>
 		</Html>
 	);
 };
