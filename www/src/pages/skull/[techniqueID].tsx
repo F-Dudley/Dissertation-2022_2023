@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Float, Html, Points } from '@react-three/drei';
 
@@ -16,7 +16,7 @@ const SkullTechniqueID = () => {
 		console.log(`TechniqueID: ${techniqueID} is not a valid technique ID.`);
 		return (
 			<Html center>
-				<h1>404</h1>
+				<h1>Invalid technique ID.</h1>
 			</Html>
 		);
 	}
@@ -26,13 +26,15 @@ const SkullTechniqueID = () => {
 	return (
 		<Float floatIntensity={0.5} rotationIntensity={1}>
 			<ReturnBar />
-			<PCDViewer
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				ref={cloudRef}
-				dir={cloudDir}
-				loading={<CanvasLoader />}
-			/>
+			<Suspense fallback={<CanvasLoader />}>
+				<PCDViewer
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					ref={cloudRef}
+					dir={cloudDir}
+					loading={<CanvasLoader />}
+				/>
+			</Suspense>
 		</Float>
 	);
 };

@@ -1,13 +1,6 @@
-import {
-	type FC,
-	type ReactNode,
-	useRef,
-	Suspense,
-	useMemo,
-	forwardRef,
-} from 'react';
+import { type FC, type ReactNode, useMemo, forwardRef } from 'react';
 import { LoaderProto, useLoader } from '@react-three/fiber';
-import { Points, Float } from '@react-three/drei';
+import { Points } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
 
 interface PCDViewerProps {
@@ -17,27 +10,26 @@ interface PCDViewerProps {
 	pointScale?: number;
 }
 
-const PCDViewer: FC<PCDViewerProps> = forwardRef(
-	({ dir, loader, loading = null, pointScale }, ref) => {
+const PCDViewer: FC<PCDViewerProps> = forwardRef<typeof Points, PCDViewerProps>(
+	({ dir, loader, pointScale }, ref) => {
 		const pcd = useMemo(
+			// eslint-disable-next-line react-hooks/rules-of-hooks
 			() => useLoader(loader ? loader : PLYLoader, dir),
 			[dir, loader],
 		);
 
 		return (
-			<Suspense fallback={loading}>
-				<Points
-					ref={ref}
-					positions={pcd.attributes.position.array}
-					colors={pcd.attributes.color.array}
-					range={20}
-				>
-					<pointsMaterial
-						size={pointScale ? pointScale : 0.0003}
-						vertexColors
-					/>
-				</Points>
-			</Suspense>
+			<Points
+				ref={ref}
+				positions={pcd.attributes.position.array}
+				colors={pcd.attributes.color.array}
+				range={20}
+			>
+				<pointsMaterial
+					size={pointScale ? pointScale : 0.0003}
+					vertexColors
+				/>
+			</Points>
 		);
 	},
 );

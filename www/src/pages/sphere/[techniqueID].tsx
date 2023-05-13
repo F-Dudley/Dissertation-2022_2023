@@ -1,4 +1,4 @@
-import { type FC, useRef } from 'react';
+import { type FC, useRef, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import PCDViewer from '@/components/canvas/PCDViewer';
 import Root from '@/components/tunnels/Root';
@@ -26,13 +26,15 @@ const SphereTechniqueID: FC = () => {
 	return (
 		<Float floatIntensity={0.5} rotationIntensity={1}>
 			<ReturnBar />
-			<PCDViewer
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				ref={cloudRef}
-				dir={cloudDir}
-				loading={<CanvasLoader />}
-			/>
+			<Suspense fallback={<CanvasLoader />}>
+				<PCDViewer
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					ref={cloudRef}
+					dir={cloudDir}
+					loading={<CanvasLoader />}
+				/>
+			</Suspense>
 		</Float>
 	);
 };
