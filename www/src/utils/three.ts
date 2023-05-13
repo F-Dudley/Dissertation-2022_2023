@@ -1,4 +1,16 @@
-import type { BufferAttribute } from 'three';
+import { SphereGeometry, type BufferAttribute } from 'three';
+
+export const DemoSpherePoints = (
+	width: number,
+	widthSegments: number,
+	heightSegments: number,
+): BufferAttribute => {
+	const sphereGeo = new SphereGeometry(width, widthSegments, heightSegments);
+
+	const spherePosAttr = sphereGeo.getAttribute('position') as BufferAttribute;
+
+	return spherePosAttr;
+};
 
 export const DemoSphereLines = (
 	spherePosAttr1: BufferAttribute,

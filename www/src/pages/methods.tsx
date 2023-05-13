@@ -1,8 +1,8 @@
 import { Suspense, useMemo, useRef, useState } from 'react';
-import { type BufferAttribute, SphereGeometry, Vector3, Mesh } from 'three';
+import { type BufferAttribute, Vector3, Mesh } from 'three';
 import { Points } from '@react-three/drei';
-import { ThreeElements, useFrame } from '@react-three/fiber';
-import { DemoSphereLines } from '@/utils/three';
+import { useFrame } from '@react-three/fiber';
+import { DemoSphereLines, DemoSpherePoints } from '@/utils/three';
 
 const MethodsPage = () => {
 	const [registerClouds, setRegisterClouds] = useState<boolean>(true);
@@ -11,19 +11,18 @@ const MethodsPage = () => {
 	const smallSphereRef = useRef<Mesh>(null);
 	const sphereRef = useRef<Mesh>(null);
 
-	const smallerSphereGeometry = useMemo(
-		() => new SphereGeometry(0.5, 15, 15),
+	const smallSpherePos = useMemo<BufferAttribute>(
+		() => DemoSpherePoints(0.5, 15, 15),
 		[],
 	);
-	const sphereGeometry = useMemo(() => new SphereGeometry(1, 15, 15), []);
+	const largeSpherePos = useMemo<BufferAttribute>(
+		() => DemoSpherePoints(1, 15, 15),
+		[],
+	);
 
-	const calcLinePoints = useMemo(() => {
-		const smallPoints = smallerSphereGeometry.attributes
-			.position as BufferAttribute;
-		const bigPoints = sphereGeometry.attributes.position as BufferAttribute;
-
-		return DemoSphereLines(smallPoints, bigPoints);
-	}, [smallerSphereGeometry, sphereGeometry]);
+	const LinePoints = useMemo(() => {
+		return DemoSphereLines(smallSpherePos, largeSpherePos);
+	}, [smallSpherePos, largeSpherePos]);
 
 	useFrame(() => {
 		if (smallSphereRef.current !== null) {
@@ -44,18 +43,12 @@ const MethodsPage = () => {
 		<>
 			<Suspense fallback={null}>
 				<mesh ref={smallSphereRef} position={[2, 0, 0]}>
-					<Points
-						positions={
-							smallerSphereGeometry.attributes.position.array
-						}
-					>
+					<Points positions={smallSpherePos.array as Float32Array}>
 						<pointsMaterial size={0.01} color="green" />
 					</Points>
 				</mesh>
 				<mesh ref={sphereRef} position={[-2, 0, 0]}>
-					<Points
-						positions={sphereGeometry.attributes.position.array}
-					>
+					<Points positions={largeSpherePos.array as Float32Array}>
 						<pointsMaterial size={0.01} color="red" />
 					</Points>
 				</mesh>
@@ -65,7 +58,7 @@ const MethodsPage = () => {
 							<bufferGeometry>
 								<bufferAttribute
 									attach={'attributes-position'}
-									args={[calcLinePoints, 3]}
+									args={[LinePoints, 3]}
 								/>
 							</bufferGeometry>
 							<lineBasicMaterial color="blue" opacity={0.05} />
