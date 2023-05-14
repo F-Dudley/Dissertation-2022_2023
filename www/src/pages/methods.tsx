@@ -5,8 +5,8 @@ import { useFrame } from '@react-three/fiber';
 import { DemoSphereLines, DemoSpherePoints } from '@/utils/three';
 
 const MethodsPage = () => {
-	const [registerClouds, setRegisterClouds] = useState<boolean>(true);
-	const [showDistanceLines, setShowDistanceLines] = useState<boolean>(true);
+	const [registerClouds] = useState<boolean>(false);
+	const [showDistanceLines] = useState<boolean>(false);
 
 	const smallSphereRef = useRef<Mesh>(null);
 	const sphereRef = useRef<Mesh>(null);
@@ -42,12 +42,20 @@ const MethodsPage = () => {
 	return (
 		<>
 			<Suspense fallback={null}>
-				<mesh ref={smallSphereRef} position={[2, 0, 0]}>
+				<mesh
+					key="small-sphere-cloud"
+					ref={smallSphereRef}
+					position={[2, 0, 0]}
+				>
 					<Points positions={smallSpherePos.array as Float32Array}>
 						<pointsMaterial size={0.01} color="green" />
 					</Points>
 				</mesh>
-				<mesh ref={sphereRef} position={[-2, 0, 0]}>
+				<mesh
+					key="large-sphere-cloud"
+					ref={sphereRef}
+					position={[-2, 0, 0]}
+				>
 					<Points positions={largeSpherePos.array as Float32Array}>
 						<pointsMaterial size={0.01} color="red" />
 					</Points>
