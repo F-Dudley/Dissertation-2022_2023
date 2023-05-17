@@ -4,16 +4,15 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import Pages from 'vite-plugin-pages';
 
 // https://vitejs.dev/config/
-export default ({ mode }: {mode: string}) => {
-
+export default ({ mode }: { mode: string }) => {
 	const env = loadEnv(mode, process.cwd(), 'SERVER_');
 
 	const isProduction = mode === 'production';
 
-	const basePath = isProduction ? env.SERVER_BASE_PATH : '/';
+	const basePath = isProduction ? env.SERVER_SITE_TITLE : '/';
 
-	console.log('Using Base Path: ', basePath)
-	console.log('Using Mode: ', mode)
+	console.log('Using Base Path: ', basePath);
+	console.log('Using Mode: ', mode);
 
 	return defineConfig({
 		base: '/',

@@ -29,6 +29,9 @@ jobs:
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
+            env:
+                NODE_OPTIONS: --max-old-space-size=4096
+
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
