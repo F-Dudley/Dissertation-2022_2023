@@ -16,7 +16,7 @@ const SkullTechniqueID = () => {
 		navigator('/404');
 	}
 
-	const cloudRef = useRef<typeof Points>(null);
+	const cloudRef = useRef<typeof Points | null>(null);
 	const cloudDir = `/clouds/${techniqueID}/Skull.ply`;
 
 	return (

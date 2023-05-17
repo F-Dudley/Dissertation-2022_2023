@@ -18,7 +18,7 @@ const SphereTechniqueID = () => {
 	}
 
 	const cloudRef = useRef<typeof Points>(null);
-	const [showDistMap, setShowDistMap] = useState<boolean>(true);
+	const [showDistMap, setShowDistMap] = useState<boolean>(false);
 
 	const cloudDir = `/clouds/${techniqueID}/Sphere.ply`;
 	const distMapCols = useMemo<Float32Array>(

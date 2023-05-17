@@ -1,8 +1,8 @@
-import { type FC, type ReactNode, forwardRef } from 'react';
+import { type ReactNode, forwardRef } from 'react';
 import { LoaderProto, useLoader } from '@react-three/fiber';
 import { Points } from '@react-three/drei';
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader.js';
-import { type BufferGeometry } from 'three';
+import { BufferAttribute, type BufferGeometry } from 'three';
 
 interface PCDViewerProps {
 	dir: string;
@@ -13,19 +13,23 @@ interface PCDViewerProps {
 	customColors?: Float32Array;
 }
 
-const PCDViewer: FC<PCDViewerProps> = forwardRef<typeof Points, PCDViewerProps>(
+const PCDViewer = forwardRef<typeof Points | null, PCDViewerProps>(
 	({ dir, loader, pointScale, customColors }, ref) => {
 		const pcd: BufferGeometry = useLoader(loader ? loader : PLYLoader, dir);
 
+		const { position, color } = pcd.attributes;
+
 		return (
 			<Points
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
 				ref={ref}
-				positions={pcd.attributes.position.array}
+				positions={(position as BufferAttribute).array as Float32Array}
 				colors={
 					customColors
 						? customColors
 						: pcd.hasAttribute('color')
-						? pcd.attributes.color.array
+						? ((color as BufferAttribute).array as Float32Array)
 						: undefined
 				}
 				range={20}

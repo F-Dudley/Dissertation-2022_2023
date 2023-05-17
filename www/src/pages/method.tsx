@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useRef, useState } from 'react';
 import { type BufferAttribute, Vector3, Mesh } from 'three';
-import { BBAnchor, Html, Points } from '@react-three/drei';
+import { Html, Points } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { DemoSphereLines, DemoSpherePoints } from '@/utils/Clouds';
 import Root from '@/components/tunnels/Root';

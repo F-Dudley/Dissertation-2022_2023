@@ -9,11 +9,11 @@ const DatasetHome = () => {
 			<main className="absolute z-10 h-screen w-screen flex flex-col items-center justify-center gap-3">
 				<div className="m-auto flex flex-row gap-4 bg-tertiary rounded-md border-2 border-accent p-4">
 					<div className="p-2 text-center bg-secondary">
-						<button className="text-highlight rounded-md">
+						<h1 className="text-highlight rounded-md p-3">
 							Skull Dataset
-						</button>
+						</h1>
 
-						<ul className="flex flex-col bg-gray-200 text-accent bg-tertiary">
+						<ul className="flex flex-col text-accent bg-tertiary border-primary border-2 ">
 							<li>
 								<button
 									className="grid place-content-center w-full h-full p-2 hover:bg-highlight hover:text-secondary rounded-md"
@@ -41,10 +41,8 @@ const DatasetHome = () => {
 						</ul>
 					</div>
 					<div className="p-2 text-center bg-secondary">
-						<button className="text-highlight">
-							Sphere Dataset
-						</button>
-						<ul className="flex flex-col bg-gray-200 text-accent bg-tertiary">
+						<h1 className="text-highlight p-3">Sphere Dataset</h1>
+						<ul className="flex flex-col  text-accent bg-tertiary border-primary border-2">
 							<li>
 								<button
 									className="grid place-content-center w-full h-full p-2 hover:bg-highlight hover:text-secondary rounded-md"
