@@ -1,5 +1,4 @@
 import Root from '@/components/tunnels/Root';
-import { Html } from '@react-three/drei';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {
