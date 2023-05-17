@@ -34,18 +34,17 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Change Directory
-              run: cd ./www
-
             - name: Set up Node
               uses: pnpm/action-setup@v2
               with:
                   version: 'latest'
 
             - name: Install dependencies
+              working-directory: ./www
               run: pnpm install
 
             - name: Build
+              working-directory: ./www
               run: pnpm build
 
             - name: Setup Pages
