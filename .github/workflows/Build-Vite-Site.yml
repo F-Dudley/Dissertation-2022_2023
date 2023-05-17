@@ -37,7 +37,7 @@ jobs:
             - name: Set up Node
               uses: pnpm/action-setup@v2
               with:
-                  version: 'latest'
+                  version: '7'
 
             - name: Install dependencies
               working-directory: ./www
