@@ -12,19 +12,18 @@ import Root from './components/tunnels/Root';
 function App() {
 	return (
 		<>
-			<div className="w-full h-full bg-slate-800 text-white">
+			<div className="z-10">
 				<Root.Out />
-				<Canvas
-					className="absolute top-0 left-0 w-screen min-h-screen -z-5"
-					camera={{ near: 0.001 }}
-					style={{ background: '#000000' }}
-				>
-					{useRoutes(routes)}
-					<R3F.Out />
-					<OrbitControls />
-					<Stage />
-				</Canvas>
 			</div>
+			<Canvas
+				className="absolute top-0 left-0 w-full min-h-screen -z-1"
+				camera={{ near: 0.001 }}
+			>
+				{useRoutes(routes)}
+				<R3F.Out />
+				<OrbitControls />
+				<Stage />
+			</Canvas>
 		</>
 	);
 }

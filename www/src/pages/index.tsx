@@ -1,73 +1,29 @@
-import { useState } from 'react';
+import Root from '@/components/tunnels/Root';
 import { Html } from '@react-three/drei';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {
 	const navigator = useNavigate();
 
-	const [showSkullList, setSkullList] = useState<boolean>(false);
-	const [showSphereList, setSphereList] = useState<boolean>(false);
-
 	return (
-		<Html
-			className="w-screen min-h-screen flex flex-col content-center"
-			style={{ width: 200 }}
-			center
-		>
-			<div className="m-auto flex flex-col">
-				<div className="mt-2 mb-2 p-2 text-center bg-gray-500 border-2 rounded-md hover:cursor-pointer">
-					<h1 onClick={() => setSkullList((val) => (val = !val))}>
-						Skull Dataset
-					</h1>
-					{showSkullList && (
-						<ul className="bg-gray-200 text-black">
-							<li>
-								<a onClick={() => navigator('/Skull/PolyCam')}>
-									PolyCam
-								</a>
-							</li>
-							<li>
-								<a onClick={() => navigator('/Skull/Kinect')}>
-									Kinect
-								</a>
-							</li>
-							<li>
-								<a onClick={() => navigator('/Skull/Point_E')}>
-									Point-E
-								</a>
-							</li>
-						</ul>
-					)}
-				</div>
-				<div className="mt-2 mb-2 p-2 text-center bg-gray-500 border-2 rounded-1">
-					<h1
-						className="hover:cursor-pointer hover:bg-gray-700 hover:text-gray"
-						onClick={() => setSphereList((val) => (val = !val))}
+		<Root.In>
+			<main className="absolute z-10 h-screen w-screen flex flex-col items-center justify-center gap-3">
+				<div className="flex flex-col justify-center items-center gap-3">
+					<button
+						className="px-4 py-2 bg-primary border-2 border-accent rounded-md hover:bg-secondary hover:text-highlight"
+						onClick={() => navigator('/method')}
 					>
-						Sphere Dataset
-					</h1>
-					{showSphereList && (
-						<ul className="bg-gray-200 text-black">
-							<li>
-								<a onClick={() => navigator('/Sphere/PolyCam')}>
-									PolyCam
-								</a>
-							</li>
-							<li>
-								<a onClick={() => navigator('/Sphere/Kinect')}>
-									Kinect
-								</a>
-							</li>
-							<li>
-								<a onClick={() => navigator('/Sphere/Point_E')}>
-									Point-E
-								</a>
-							</li>
-						</ul>
-					)}
+						Method
+					</button>
+					<button
+						className="px-4 py-2 bg-primary border-2 border-accent rounded-md hover:bg-secondary hover:text-highlight"
+						onClick={() => navigator('/dataset')}
+					>
+						Dataset
+					</button>
 				</div>
-			</div>
-		</Html>
+			</main>
+		</Root.In>
 	);
 };
 

@@ -3,30 +3,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Float, Points } from '@react-three/drei';
 
 import PCDViewer from '@/components/canvas/PCDViewer';
-import { SCANNING_TECHNIQUES, SCANNING_OBJECTS } from '@/data/constants';
+import { IsAScanntingTechnique } from '@/data/validation';
 import CanvasLoader from '@/components/DOM/CanvasLoader';
-import ReturnBar from '@/layout/ReturnBar';
 
 const SkullTechniqueID = () => {
-	const { scanobjectID, techniqueID } = useParams();
+	const { techniqueID } = useParams();
 
 	const navigator = useNavigate();
-	if (
-		scanobjectID === undefined ||
-		techniqueID === undefined ||
-		!SCANNING_OBJECTS.includes(scanobjectID) ||
-		!SCANNING_TECHNIQUES.includes(techniqueID)
-	) {
+	if (techniqueID === undefined || !IsAScanntingTechnique(techniqueID)) {
 		console.log('invalid');
 		navigator('/404');
 	}
 
 	const cloudRef = useRef<typeof Points>(null);
-	const cloudDir = `/clouds/${techniqueID}/${scanobjectID}.ply`;
+	const cloudDir = `/clouds/${techniqueID}/Skull.ply`;
 
 	return (
 		<Float floatIntensity={0.5} rotationIntensity={1}>
-			<ReturnBar />
 			<Suspense fallback={<CanvasLoader />}>
 				<PCDViewer
 					ref={cloudRef}
