@@ -8,7 +8,7 @@
 			"name": "KinectScan",
 			"type": "python",
 			"request": "launch",
-			"program": "${workspaceFolder}/Dissertation/KinectScan",
+			"program": "${workspaceFolder}/Project/Dissertation/KinectScan",
 			"console": "integratedTerminal",
 			"justMyCode": true
 		},
@@ -16,7 +16,7 @@
 			"name": "AIScanning",
 			"type": "python",
 			"request": "launch",
-			"program": "${workspaceFolder}/Dissertation/AIScan",
+			"program": "${workspaceFolder}/Project/Dissertation/AIScan",
 			"console": "integratedTerminal",
 			"justMyCode": true
 		}
