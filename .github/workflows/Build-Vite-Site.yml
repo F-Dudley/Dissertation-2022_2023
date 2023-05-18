@@ -1,12 +1,22 @@
-name: Github Pages
+name: Build to Github Pages
 
 on:
     push:
         branches:
-            - main
+            - ['main']
     pull_request:
         branches:
-            - main
+            - ['main']
+
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+
+concurrency:
+    group: 'GH-Pages-Build'
+    cancel-in-progress: true
 
 jobs:
     Deploy:
