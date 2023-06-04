@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stage } from '@react-three/drei';
+import { Bounds, OrbitControls, Stage } from '@react-three/drei';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -19,9 +19,11 @@ function App() {
 				className="absolute top-0 left-0 w-full min-h-screen -z-1"
 				camera={{ near: 0.001 }}
 			>
-				{useRoutes(routes)}
+				<Bounds fit observe margin={1.5}>
+					{useRoutes(routes)}
+				</Bounds>
 				<R3F.Out />
-				<OrbitControls />
+				<OrbitControls makeDefault target={[0, 0, 0]} />
 				<Stage />
 			</Canvas>
 		</>

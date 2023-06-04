@@ -1,6 +1,6 @@
 import { Suspense, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Float, Points } from '@react-three/drei';
+import { Points } from '@react-three/drei';
 
 import PCDViewer from '@/components/canvas/PCDViewer';
 import { IsAScanntingTechnique } from '@/data/validation';
@@ -21,15 +21,13 @@ const SkullTechniqueID = () => {
 
 	return (
 		<>
-			<Float floatIntensity={0.5} rotationIntensity={1}>
-				<Suspense fallback={<CanvasLoader />}>
-					<PCDViewer
-						ref={cloudRef}
-						dir={cloudDir}
-						loading={<CanvasLoader />}
-					/>
-				</Suspense>
-			</Float>
+			<Suspense fallback={<CanvasLoader />}>
+				<PCDViewer
+					ref={cloudRef}
+					dir={cloudDir}
+					loading={<CanvasLoader />}
+				/>
+			</Suspense>
 			<Root.In>
 				<button
 					className="absolute top-0 p-2 z-10 text-accent bg-secondary hover:bg-highlight hover:text-primary border-accent border-b-2 border-r-2"

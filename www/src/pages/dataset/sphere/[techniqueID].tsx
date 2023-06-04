@@ -1,6 +1,6 @@
 import { Suspense, useRef, useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Float, Points } from '@react-three/drei';
+import { Points } from '@react-three/drei';
 
 import PCDViewer from '@/components/canvas/PCDViewer';
 import { IsAScanntingTechnique } from '@/data/validation';
@@ -28,16 +28,14 @@ const SphereTechniqueID = () => {
 
 	return (
 		<>
-			<Float floatIntensity={0.5} rotationIntensity={1}>
-				<Suspense fallback={<CanvasLoader />}>
-					<PCDViewer
-						ref={cloudRef}
-						dir={cloudDir}
-						loading={<CanvasLoader />}
-						customColors={showDistMap ? distMapCols : undefined}
-					/>
-				</Suspense>
-			</Float>
+			<Suspense fallback={<CanvasLoader />}>
+				<PCDViewer
+					ref={cloudRef}
+					dir={cloudDir}
+					loading={<CanvasLoader />}
+					customColors={showDistMap ? distMapCols : undefined}
+				/>
+			</Suspense>
 			<Root.In>
 				<div className="absolute flex flex-row justify-center p-2 w-full bottom-0  z-10 gap-5 bg-secondary border-accent border-t-2">
 					<input

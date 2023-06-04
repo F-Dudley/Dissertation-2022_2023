@@ -21,6 +21,9 @@ concurrency:
 jobs:
     Deploy:
         runs-on: ubuntu-latest
+        env:
+            NODE_OPTIONS: --max_old_space_size=4096
+
         steps:
             - uses: actions/checkout@v2
 
@@ -48,7 +51,7 @@ jobs:
 
             - name: Build Vite site
               working-directory: ./www
-              run: pnpm build --max_old_space_size=4096
+              run: pnpm build
 
             - name: Deploy GitHub Pages
               uses: peaceiris/actions-gh-pages@v3

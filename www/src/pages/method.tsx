@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useRef, useState } from 'react';
 import { type BufferAttribute, Vector3, Mesh } from 'three';
-import { Html, Points } from '@react-three/drei';
+import { Bounds, Html, Points } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { DemoSphereLines, DemoSpherePoints } from '@/utils/Clouds';
 import Root from '@/components/tunnels/Root';
@@ -64,65 +64,85 @@ const MethodsPage = () => {
 
 	return (
 		<>
-			<Suspense fallback={null}>
-				<mesh
-					key="small-sphere-cloud"
-					ref={smallSphereRef}
-					position={[2, 0, 0]}
-				>
-					<Points positions={smallSpherePos.array as Float32Array}>
-						<pointsMaterial size={0.03} color="green" />
-					</Points>
-					{MeetsState(currentStage, MethodStates.Initial_State) &&
-						!MeetsState(
-							currentStage,
-							MethodStates.Computed_Distance,
-						) && (
-							<Html position={[0, -1.5, 0]} center>
-								<div className="text-accent text-center select-none">
-									Base Cloud
-								</div>
-							</Html>
-						)}
-				</mesh>
-				<mesh
-					key="large-sphere-cloud"
-					ref={sphereRef}
-					position={[-2, 0, 0]}
-				>
-					<Points positions={largeSpherePos.array as Float32Array}>
-						<pointsMaterial size={0.03} color="red" />
-					</Points>
-					{MeetsState(currentStage, MethodStates.Initial_State) &&
-						!MeetsState(
-							currentStage,
-							MethodStates.Computed_Distance,
-						) && (
-							<Html position={[0, 1.5, 0]} center>
-								<div className="text-accent text-center select-none">
-									Collected Cloud
-								</div>
-							</Html>
-						)}
-				</mesh>
-				{MeetsState(currentStage, MethodStates.Computed_Distance) && (
-					<mesh>
-						<lineSegments>
-							<bufferGeometry>
-								<bufferAttribute
-									attach={'attributes-position'}
-									args={[LinePoints, 3]}
-								/>
-							</bufferGeometry>
-							<lineBasicMaterial color="yellow" opacity={0.05} />
-						</lineSegments>
-						<Html position={[0, 1.5, 0]} center>
-							<div className="text-accent text-center select-none">
-								Point To Point Distance Calculation
-							</div>
-						</Html>
+			<Suspense
+				fallback={
+					<Root.In>
+						<div className="absolute flex flex-row justify-center p-2 w-full bottom-0  z-10 gap-5 bg-secondary border-accent border-t-2">
+							Test
+						</div>
+					</Root.In>
+				}
+			>
+				<Bounds fit observe clip margin={0.7}>
+					<mesh
+						key="small-sphere-cloud"
+						ref={smallSphereRef}
+						position={[2, 0, 0]}
+					>
+						<Points
+							positions={smallSpherePos.array as Float32Array}
+						>
+							<pointsMaterial size={0.03} color="green" />
+						</Points>
+						{MeetsState(currentStage, MethodStates.Initial_State) &&
+							!MeetsState(
+								currentStage,
+								MethodStates.Computed_Distance,
+							) && (
+								<Html position={[0, -1.5, 0]} center>
+									<div className="text-accent text-center select-none">
+										Base Cloud
+									</div>
+								</Html>
+							)}
 					</mesh>
-				)}
+					<mesh
+						key="large-sphere-cloud"
+						ref={sphereRef}
+						position={[-2, 0, 0]}
+					>
+						<Points
+							positions={largeSpherePos.array as Float32Array}
+						>
+							<pointsMaterial size={0.03} color="red" />
+						</Points>
+						{MeetsState(currentStage, MethodStates.Initial_State) &&
+							!MeetsState(
+								currentStage,
+								MethodStates.Computed_Distance,
+							) && (
+								<Html position={[0, 1.5, 0]} center>
+									<div className="text-accent text-center select-none">
+										Collected Cloud
+									</div>
+								</Html>
+							)}
+					</mesh>
+					{MeetsState(
+						currentStage,
+						MethodStates.Computed_Distance,
+					) && (
+						<mesh>
+							<lineSegments>
+								<bufferGeometry>
+									<bufferAttribute
+										attach={'attributes-position'}
+										args={[LinePoints, 3]}
+									/>
+								</bufferGeometry>
+								<lineBasicMaterial
+									color="yellow"
+									opacity={0.05}
+								/>
+							</lineSegments>
+							<Html position={[0, 2, 0]} center>
+								<div className="text-accent text-center select-none">
+									Point To Point Distance Calculation
+								</div>
+							</Html>
+						</mesh>
+					)}
+				</Bounds>
 			</Suspense>
 			<Root.In>
 				<div className="absolute flex flex-row justify-center p-2 w-full bottom-0  z-10 gap-5 bg-secondary border-accent border-t-2">
