@@ -3,12 +3,11 @@ name: Build to Github Pages
 on:
     push:
         branches:
-
             - 'main'
     pull_request:
         branches:
             - 'main'
-            
+
     workflow_dispatch:
 
 permissions:
@@ -28,15 +27,18 @@ jobs:
             - name: Setup Node.js environment
               uses: actions/setup-node@v2.5.2
               with:
-                version: 16
-            
+                  version: 16
+
             - name: Set Node Heap Allocation
               run: export NODE_OPTIONS=--max-old-space-size=4096
+
+            - name: Move to Vite site directory
+              run: cd www
 
             - name: Install pnpm
               uses: pnpm/action-setup@v2
               with:
-                version: 6.0.2
+                  version: 6.0.2
 
             - name: Cache .pnpm-store
               uses: actions/cache@v2
