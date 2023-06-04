@@ -15,7 +15,7 @@ export default ({ mode }: { mode: string }) => {
 	console.log('Using Mode: ', mode);
 
 	return defineConfig({
-		base: '/',
+		base: basePath,
 		server: {
 			port: 3000,
 		},
