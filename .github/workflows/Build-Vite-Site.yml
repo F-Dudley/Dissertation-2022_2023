@@ -32,9 +32,6 @@ jobs:
             - name: Set Node Heap Allocation
               run: export NODE_OPTIONS=--max-old-space-size=4096
 
-            - name: Move to Vite site directory
-              run: cd www
-
             - name: Install pnpm
               uses: pnpm/action-setup@v2
               with:
@@ -49,12 +46,15 @@ jobs:
                       ${{ runner.os }}-pnpm-
 
             - name: Install dependencies
+              working-directory: ./www
               run: pnpm install
 
             - name: Build Vite site
+              working-directory: ./www
               run: pnpm build
 
             - name: Deploy GitHub Pages
+              working-directory: ./www
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
